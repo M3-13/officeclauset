@@ -102,3 +102,19 @@ export function uploadFile<T>(
     body: formData,
   });
 }
+
+export function putFile<T>(
+  endpoint: string,
+  formData: FormData,
+  token?: string,
+): Promise<T> {
+  const headers: Record<string, string> = {};
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return request<T>(endpoint, {
+    method: "PUT",
+    headers,
+    body: formData,
+  });
+}
