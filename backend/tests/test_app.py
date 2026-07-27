@@ -11,7 +11,12 @@ def test_health_endpoint() -> None:
 
 def test_router_health_endpoints() -> None:
     with TestClient(app) as client:
-        for prefix in ["/api/auth", "/api/items", "/api/outfits", "/api/users"]:
+        # auth uses POST /health per ticket spec
+        response = client.post("/api/auth/health")
+        assert response.status_code == 200
+        assert response.json() == {"status": "ok"}
+
+        for prefix in ["/api/items", "/api/outfits", "/api/users"]:
             response = client.get(f"{prefix}/health")
             assert response.status_code == 200
             assert response.json() == {"status": "ok"}
@@ -39,8 +44,10 @@ def test_cors_headers() -> None:
 
 def test_database_tables_created() -> None:
     from database import engine
+    from models import Base
     from sqlalchemy import inspect
 
+    Base.metadata.create_all(bind=engine)
     inspector = inspect(engine)
     tables = inspector.get_table_names()
     expected = {"users", "clothing_items", "outfits", "outfit_items"}

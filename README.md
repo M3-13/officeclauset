@@ -51,7 +51,7 @@ Das Frontend läuft unter `http://localhost:5173`.
 |---|---|---|
 | `DB_PATH` | Pfad zur SQLite-Datenbank | `officeclauset.db` (im `backend/` Verzeichnis) |
 | `JWT_SECRET` | Geheimer Schlüssel für JWT-Signatur | `dev-secret-change-in-production` |
-| `JWT_EXPIRY_HOURS` | Ablaufzeit der JWT-Tokens in Stunden | `24` |
+| `JWT_EXPIRY` | Ablaufzeit der JWT-Tokens in Stunden | `24` |
 | `UPLOAD_DIR` | Verzeichnis für Bild-Uploads | `backend/uploads/` |
 
 ## API-Endpunkte
@@ -61,7 +61,7 @@ Das Frontend läuft unter `http://localhost:5173`.
 | Methode | Pfad | Beschreibung |
 |---|---|---|
 | `GET` | `/api/health` | Health-Check – liefert `{"status": "ok"}` |
-| `GET` | `/api/auth/health` | Auth-Router Health-Check |
+| `POST` | `/api/auth/health` | Auth-Router Health-Check |
 | `GET` | `/api/items/health` | Items-Router Health-Check |
 | `GET` | `/api/outfits/health` | Outfits-Router Health-Check |
 | `GET` | `/api/users/health` | Users-Router Health-Check |

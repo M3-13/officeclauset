@@ -1,6 +1,6 @@
 from datetime import UTC, datetime, timedelta
 
-from config import JWT_EXPIRY_HOURS, JWT_SECRET
+from config import JWT_EXPIRY, JWT_SECRET
 from database import get_db
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -15,7 +15,7 @@ security = HTTPBearer()
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     to_encode = data.copy()
-    expire = datetime.now(UTC) + (expires_delta or timedelta(hours=JWT_EXPIRY_HOURS))
+    expire = datetime.now(UTC) + (expires_delta or timedelta(hours=JWT_EXPIRY))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, JWT_SECRET, algorithm="HS256")
 
