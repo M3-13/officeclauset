@@ -40,6 +40,10 @@ async function request<T>(
     throw new Error(error.detail || "Request failed");
   }
 
+  if (response.status === 204) {
+    return undefined as unknown as Promise<T>;
+  }
+
   return response.json() as Promise<T>;
 }
 
