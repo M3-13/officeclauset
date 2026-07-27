@@ -12,7 +12,7 @@ def _register(
 ) -> dict:
     resp = client.post(
         "/api/auth/register",
-        json={"email": email, "password": password, "privacy_consent": True},
+        json={"email": email, "password": password, "privacy_accepted": True},
     )
     return resp.json()
 
@@ -24,7 +24,7 @@ def test_register_creates_user_and_returns_token() -> None:
             json={
                 "email": "newuser@example.com",
                 "password": "validpass123",
-                "privacy_consent": True,
+                "privacy_accepted": True,
             },
         )
         assert resp.status_code == 201
@@ -42,7 +42,7 @@ def test_register_rejects_short_password() -> None:
             json={
                 "email": "shortpass@example.com",
                 "password": "1234567",
-                "privacy_consent": True,
+                "privacy_accepted": True,
             },
         )
         assert resp.status_code == 422
@@ -55,7 +55,7 @@ def test_register_rejects_missing_privacy_consent() -> None:
             json={
                 "email": "noprivacy@example.com",
                 "password": "validpass123",
-                "privacy_consent": False,
+                "privacy_accepted": False,
             },
         )
         assert resp.status_code == 422
@@ -68,7 +68,7 @@ def test_register_rejects_duplicate_email() -> None:
             json={
                 "email": "dupe@example.com",
                 "password": "validpass123",
-                "privacy_consent": True,
+                "privacy_accepted": True,
             },
         )
         resp = client.post(
@@ -76,7 +76,7 @@ def test_register_rejects_duplicate_email() -> None:
             json={
                 "email": "dupe@example.com",
                 "password": "validpass456",
-                "privacy_consent": True,
+                "privacy_accepted": True,
             },
         )
         assert resp.status_code == 409
@@ -131,7 +131,7 @@ def test_register_rejects_invalid_email_format() -> None:
             json={
                 "email": "not-an-email",
                 "password": "validpass123",
-                "privacy_consent": True,
+                "privacy_accepted": True,
             },
         )
         assert resp.status_code == 422
@@ -157,7 +157,7 @@ def test_register_and_login_flow() -> None:
             json={
                 "email": "flowtest@example.com",
                 "password": "flowpass123",
-                "privacy_consent": True,
+                "privacy_accepted": True,
             },
         )
         assert reg_resp.status_code == 201

@@ -20,7 +20,7 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)) -> dict:  # n
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail="Password must be at least 8 characters",
         )
-    if not user_data.privacy_consent:
+    if not user_data.privacy_accepted:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail="Data privacy consent is required",

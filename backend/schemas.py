@@ -6,7 +6,7 @@ from pydantic import BaseModel, EmailStr
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-    privacy_consent: bool
+    privacy_accepted: bool
 
 
 class UserLogin(BaseModel):

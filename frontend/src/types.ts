@@ -49,7 +49,7 @@ export interface LoginRequest {
 export interface RegisterRequest {
   email: string;
   password: string;
-  privacy_consent: boolean;
+  privacy_accepted: boolean;
 }
 
 export interface TokenResponse {

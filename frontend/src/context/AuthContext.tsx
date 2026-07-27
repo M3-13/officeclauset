@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await post<AuthResponse>("/auth/register", {
         email,
         password,
-        privacy_consent: privacyConsent,
+        privacy_accepted: privacyConsent,
       });
       setToken(data.access_token);
       setAuthToken(data.access_token);
