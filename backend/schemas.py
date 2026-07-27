@@ -59,9 +59,14 @@ class ClothingItemResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class OutfitItemCreate(BaseModel):
+    clothing_item_id: int
+    category: str
+
+
 class OutfitCreate(BaseModel):
     name: str
-    item_ids: list[int]
+    items: list[OutfitItemCreate]
 
 
 class OutfitItemResponse(BaseModel):

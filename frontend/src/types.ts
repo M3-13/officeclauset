@@ -64,7 +64,12 @@ export interface ClothingItemCreate {
   brand?: string;
 }
 
+export interface OutfitItemCreate {
+  clothing_item_id: number;
+  category: string;
+}
+
 export interface OutfitCreate {
   name: string;
-  item_ids: number[];
+  items: OutfitItemCreate[];
 }
