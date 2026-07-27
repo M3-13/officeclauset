@@ -26,6 +26,12 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
 
 
+class AuthResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UserResponse
+
+
 class ClothingItemCreate(BaseModel):
     name: str
     category: str

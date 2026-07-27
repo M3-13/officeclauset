@@ -1,16 +1,36 @@
 const BASE_URL = "http://localhost:8000/api";
 
+let authToken: string | null = null;
+
+export function setAuthToken(token: string | null): void {
+  authToken = token;
+}
+
+export function getAuthToken(): string | null {
+  return authToken;
+}
+
 async function request<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
+  const headers: Record<string, string> = {};
+
+  if (!(options.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  if (authToken) {
+    headers["Authorization"] = `Bearer ${authToken}`;
+  }
+
   const config: RequestInit = {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
     ...options,
+    headers: {
+      ...headers,
+      ...(options.headers as Record<string, string> | undefined),
+    },
   };
 
   const response = await fetch(url, config);
