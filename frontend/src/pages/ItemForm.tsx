@@ -80,8 +80,12 @@ export default function ItemForm() {
         } = {};
         updateData.name = name.trim();
         updateData.category = category;
-        updateData.color = color.trim() || "";
-        updateData.brand = brand.trim() || "";
+        if (color.trim()) {
+          updateData.color = color.trim();
+        }
+        if (brand.trim()) {
+          updateData.brand = brand.trim();
+        }
         if (imageFile) {
           updateData.image = imageFile;
         }

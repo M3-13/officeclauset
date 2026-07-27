@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getImageUrl, getItems } from "../api/items";
 import { AuthContext } from "../context/AuthContext";
@@ -13,7 +13,23 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 300);
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, [search]);
 
   const fetchItems = useCallback(async () => {
     if (!token) return;
@@ -22,7 +38,7 @@ export default function Gallery() {
     try {
       const params: { category?: string; search?: string } = {};
       if (selectedCategory) params.category = selectedCategory;
-      if (search.trim()) params.search = search.trim();
+      if (debouncedSearch.trim()) params.search = debouncedSearch.trim();
       const data = await getItems(params);
       setItems(data);
     } catch (err) {
@@ -30,7 +46,7 @@ export default function Gallery() {
     } finally {
       setLoading(false);
     }
-  }, [token, selectedCategory, search]);
+  }, [token, selectedCategory, debouncedSearch]);
 
   useEffect(() => {
     fetchItems();

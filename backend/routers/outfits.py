@@ -1,4 +1,5 @@
 from auth import get_current_user
+from constants import ALLOWED_CATEGORIES, MAX_NAME_LENGTH
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, status
 from models import ClothingItem, Outfit, OutfitItem, User
@@ -6,9 +7,6 @@ from schemas import OutfitCreate, OutfitDetailResponse
 from sqlalchemy.orm import Session, joinedload
 
 router = APIRouter(prefix="/api/outfits", tags=["outfits"])
-
-ALLOWED_CATEGORIES = {"Oberteile", "Hosen", "Schuhe", "Accessoires", "Jacken", "Kleider"}
-MAX_NAME_LENGTH = 100
 
 
 def _get_own_outfit(outfit_id: int, user: User, db: Session) -> Outfit:

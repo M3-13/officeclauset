@@ -2,6 +2,7 @@ import os
 from contextlib import suppress
 
 from auth import get_current_user
+from config import UPLOAD_DIR
 from database import get_db
 from fastapi import APIRouter, Depends, status
 from models import User
@@ -26,6 +27,8 @@ def delete_my_account(
     db.delete(current_user)
     db.commit()
 
-    for path in image_paths:
+    for filename in image_paths:
+        filepath = os.path.join(UPLOAD_DIR, filename)
         with suppress(OSError):
-            os.remove(path)
+            if os.path.isfile(filepath):
+                os.remove(filepath)

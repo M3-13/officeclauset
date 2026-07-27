@@ -4,6 +4,13 @@ from io import BytesIO
 
 from auth import get_current_user
 from config import UPLOAD_DIR
+from constants import (
+    ALLOWED_CATEGORIES,
+    ALLOWED_IMAGE_TYPES,
+    MAX_COLOR_BRAND_LENGTH,
+    MAX_IMAGE_SIZE,
+    MAX_NAME_LENGTH,
+)
 from database import get_db
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile, status
 from models import ClothingItem, User
@@ -13,12 +20,6 @@ from sqlalchemy import String, cast
 from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/items", tags=["items"])
-
-ALLOWED_CATEGORIES = {"Oberteile", "Hosen", "Schuhe", "Accessoires", "Jacken", "Kleider"}
-ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png"}
-MAX_IMAGE_SIZE = 5 * 1024 * 1024
-MAX_NAME_LENGTH = 100
-MAX_COLOR_BRAND_LENGTH = 50
 
 
 def _validate_category(category: str) -> None:

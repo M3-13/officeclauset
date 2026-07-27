@@ -1,7 +1,7 @@
 import type { ClothingItem, ClothingItemCreate } from "../types";
 import { del, get, putFile, uploadFile } from "./client";
 
-const UPLOADS_BASE = "http://localhost:8000/uploads";
+const UPLOADS_BASE = "/uploads";
 
 export function getImageUrl(imagePath: string | null): string {
   if (!imagePath) return "";
