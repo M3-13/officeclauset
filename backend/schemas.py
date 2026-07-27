@@ -6,7 +6,7 @@ from pydantic import BaseModel, EmailStr
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-    privacy_consent: bool
+    privacy_accepted: bool
 
 
 class UserLogin(BaseModel):
@@ -24,6 +24,12 @@ class UserResponse(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+class AuthResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UserResponse
 
 
 class ClothingItemCreate(BaseModel):
